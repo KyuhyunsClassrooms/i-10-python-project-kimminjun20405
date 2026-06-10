@@ -1,101 +1,53 @@
 # AI 활용 자유 주제 파이썬 미니 프로젝트
 # 이름 또는 학번: 
 # 프로젝트 주제: 
+import random
+import time
 
-# ============================================================
-# 사용 안내
-# ------------------------------------------------------------
-# 이 파일은 예시 골격입니다.
-# 그대로 제출하지 말고, 반드시 자신의 주제에 맞게 수정하세요.
-#
-# 필수 조건
-# 1. 2차원 리스트 사용
-# 2. 함수 2개 이상, 가능하면 3개 이상 분리
-# 3. 조건문 사용
-# 4. 반복문 사용
-# 5. 실행 결과 출력
-# ============================================================
-
-
-# ------------------------------------------------------------
-# 1. 데이터 준비: 2차원 리스트
-# ------------------------------------------------------------
-# 아래 예시는 "활동 추천 프로그램"입니다.
-# 자신의 주제에 맞게 data를 만드세요.
-#
-# 현재 열의 의미:
-# 0번 열: 활동 이름
-# 1번 열: 필요한 시간(분)
-# 2번 열: 추천 기분
-# 3번 열: 활동 유형
-# ------------------------------------------------------------
-
-activities = [
-    ["산책하기", 30, "피곤", "운동"],
-    ["짧은 낮잠", 20, "피곤", "휴식"],
-    ["좋아하는 음악 듣기", 10, "우울", "휴식"],
-    ["문제집 3쪽 풀기", 40, "차분", "공부"],
-    ["방 정리하기", 25, "답답", "생활"],
-    ["친구에게 연락하기", 15, "우울", "소통"],
-]
+def show_menu():
+    while True:
+        print("\n=== ⚡ 콘솔 서바이벌 리듬 게임 ⚡ ===")
+        print("1. 레벨 1 (시간: 2.0초 | 목숨: 5개 | 난이도: ★☆☆)")
+        print("2. 레벨 2 (시간: 1.2초 | 목숨: 3개 | 난이도: ★★☆)")
+        print("3. 레벨 3 (시간: 0.8초 | 목숨: 1개 | 난이도: ★★★)")
+        print("4. 게임 종료")
+        print("=====================================")
+        
+        choice = input("도전할 레벨의 번호를 입력하세요: ")
+        
+        if choice == "1":
+            print("\n🎮 [레벨 1] 게임을 시작합니다. 차근차근 연습해 보세요!")
+            return 1
+        elif choice == "2":
+            print("\n🔥 [레벨 2] 게임을 시작합니다. 집중력이 필요합니다!")
+            return 2
+        elif choice == "3":
+            print("\n💀 [레벨 3] HARDCORE MODE! 단 한 번의 실수도 용납되지 않습니다!")
+            return 3
+        elif choice == "4":
+            print("\n👋 게임을 종료합니다. 다음에 또 도전해 주세요!")
+            return 0
+        else:
+            print("\n❌ 잘못된 입력입니다. 1, 2, 3, 4 중에서 올바른 번호를 골라주세요.")
 
 
-# ------------------------------------------------------------
-# 2. 함수 정의
-# ------------------------------------------------------------
+# --- 위에 작성한 show_menu() 함수가 있다고 가정합니다 ---
 
-def show_intro():
-    """프로그램 제목과 안내를 출력한다."""
-    print("=" * 40)
-    print("AI 활용 자유 주제 파이썬 미니 프로젝트")
-    print("예시: 기분과 시간에 따른 활동 추천기")
-    print("=" * 40)
+# 메인 실행부
+selected_level = show_menu()
 
+if selected_level == 1:
+    limit_time = 2.0
+    initial_life = 5
+    print(f"[시스템] 제한 시간 {limit_time}초, 목숨 {initial_life}개로 게임을 세팅합니다...")
+    # (다음 단계에서 여기에 play_rhythm_game("레벨 1", limit_time, initial_life)를 호출할 거예요!)
 
-def get_user_input():
-    """사용자에게 기분과 남은 시간을 입력받는다."""
-    mood = input("현재 기분을 입력하세요. 예: 피곤, 우울, 차분, 답답: ")
-    minutes = int(input("사용 가능한 시간을 분 단위로 입력하세요: "))
-    return mood, minutes
+elif selected_level == 2:
+    limit_time = 1.2
+    initial_life = 3
+    print(f"[시스템] 제한 시간 {limit_time}초, 목숨 {initial_life}개로 게임을 세팅합니다...")
 
-
-def find_recommendations(data, mood, minutes):
-    """2차원 리스트를 반복하며 조건에 맞는 활동을 찾는다."""
-    results = []
-
-    for row in data:
-        name = row[0]
-        required_minutes = row[1]
-        recommended_mood = row[2]
-        activity_type = row[3]
-
-        # 조건문: 사용자의 기분과 시간이 활동 조건에 맞는지 판단한다.
-        if recommended_mood == mood and required_minutes <= minutes:
-            results.append([name, required_minutes, activity_type])
-
-    return results
-
-
-def print_result(results):
-    """추천 결과를 출력한다."""
-    print("\n[추천 결과]")
-
-    if len(results) == 0:
-        print("조건에 맞는 활동이 없습니다.")
-        print("시간을 늘리거나 다른 기분을 입력해 보세요.")
-    else:
-        for item in results:
-            print(f"- {item[0]} / {item[1]}분 / 유형: {item[2]}")
-
-
-def main():
-    show_intro()
-    mood, minutes = get_user_input()
-    results = find_recommendations(activities, mood, minutes)
-    print_result(results)
-
-
-# ------------------------------------------------------------
-# 3. 프로그램 실행
-# ------------------------------------------------------------
-main()
+elif selected_level == 3:
+    limit_time = 0.8
+    initial_life = 1
+    print(f"[시스템] 제한 시간 {limit_time}초, 목숨 {initial_life}개로 초고난도 게임을 세팅합니다... ⚡")
